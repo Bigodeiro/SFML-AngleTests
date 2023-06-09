@@ -51,7 +51,6 @@
     "files.exclude": {
         "*.dll"     : true,
         "*.o"       : true,
-        "src"       : true,
         ".vscode"   : true,
         ".gitignore": true
     }
