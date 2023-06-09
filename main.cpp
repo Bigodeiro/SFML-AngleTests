@@ -44,6 +44,8 @@ int main()
         sf::Vertex(unitCircle.getPosition()),
         sf::Vertex(sf::Vector2f(0,0))
     };
+    angPointer[0].color = sf::Color(51, 158, 255);
+    angPointer[1].color = sf::Color(51, 158, 255);
 
     //*Texto do angulo
     sf::Font fonte;
@@ -58,8 +60,39 @@ int main()
     anguloTXT.setCharacterSize(20);
     anguloTXT.setPosition(15,15);
     anguloTXT.setString("teste");
-    anguloTXT.setFillColor(sf::Color(240, 99, 32));
+    anguloTXT.setFillColor(sf::Color(51, 158, 255));
 
+    //*Linha do ceno e do cosseno
+    sf::Vertex seno[]=
+    {
+        sf::Vertex(sf::Vector2f(100,100)),
+        sf::Vertex(sf::Vector2f(-100,-100))
+    };
+    sf::Vertex cosseno[]=
+    {
+        sf::Vertex(sf::Vector2f(0,0)),
+        sf::Vertex(sf::Vector2f(0,0))
+    };
+    seno[0].color = sf::Color(37,220,44);
+    seno[1].color = sf::Color(37,220,44);
+    cosseno[0].color = sf::Color(255,82,40);
+    cosseno[1].color = sf::Color(255,82,40);
+    
+
+    //*Texto do seno e do cosseno
+    sf::Text senoTXT;
+    senoTXT.setFont(fonte);
+    senoTXT.setCharacterSize(20);
+    senoTXT.setPosition(15,15);
+    senoTXT.setString("teste");
+    senoTXT.setFillColor(sf::Color(37,220,44));
+
+    sf::Text cossenoTXT;
+    cossenoTXT.setFont(fonte);
+    cossenoTXT.setCharacterSize(20);
+    cossenoTXT.setPosition(15,15);
+    cossenoTXT.setString("teste");
+    cossenoTXT.setFillColor(sf::Color(255,82,40));
 
     while (window.isOpen())//! cada iteração aqui é um frame
     {
@@ -103,8 +136,37 @@ int main()
     {
         ang = 270 + 90 - ang;
     }
+    
+    anguloTXT.setString(std::to_string(int(ang)));
 
-    anguloTXT.setString(std::to_string(ang));
+    //*Calculo e atualização da linhas do seno e do cosseno
+    seno[0].position = angPointer[1].position;
+    cosseno[0].position = angPointer[1].position;
+
+    seno[1].position = sf::Vector2f(angPointer[1].position.x ,0);
+    cosseno[1].position = sf::Vector2f(0, angPointer[1].position.y);
+
+    //*Calculo e atualização dos valores dos senos e cossenos
+    senoTXT.setPosition(seno[1].position);
+    cossenoTXT.setPosition(cosseno[1].position);
+    float valseno = seno[1].position.x/unitCircle.getRadius();
+    float valcosseno = cosseno[1].position.y/unitCircle.getRadius();
+
+    std::string tempseno = std::to_string(valseno);
+    std::string tempcosseno = std::to_string(valcosseno);
+
+    if (valseno < 0)
+    {
+        tempseno.resize(5);
+    }else tempseno.resize(4);
+    if (valcosseno < 0)
+    {
+        tempcosseno.resize(5);
+    }else tempcosseno.resize(4);
+
+    senoTXT.setString(tempseno);
+    cossenoTXT.setString(tempcosseno);
+
 
     //? renderiza algo para a tela, modificando-a
     window.draw(unitCircle);
@@ -112,6 +174,11 @@ int main()
     window.draw(ordenadas, 2, sf::Lines);
     window.draw(angPointer, 2, sf::Lines);
     window.draw(anguloTXT);
+    window.draw(seno, 2, sf::Lines);
+    window.draw(cosseno, 2, sf::Lines);
+    window.draw(senoTXT);
+    window.draw(cossenoTXT);
+
 
     //? recarrega a tela, fazendo com que as mudanças sejam efetivadas
     window.display();
