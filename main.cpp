@@ -94,6 +94,9 @@ int main()
     cossenoTXT.setString("teste");
     cossenoTXT.setFillColor(sf::Color(255,82,40));
 
+    //*Linha da Tangente
+    
+
     while (window.isOpen())//! cada iteração aqui é um frame
     {
         sf::Event evnt;
@@ -153,7 +156,7 @@ int main()
     float valcosseno = cosseno[1].position.y/unitCircle.getRadius();
 
     std::string tempseno = std::to_string(valseno);
-    std::string tempcosseno = std::to_string(valcosseno);
+    std::string tempcosseno = std::to_string(valcosseno * -1);
 
     if (valseno < 0)
     {
@@ -161,8 +164,8 @@ int main()
     }else tempseno.resize(4);
     if (valcosseno < 0)
     {
-        tempcosseno.resize(5);
-    }else tempcosseno.resize(4);
+        tempcosseno.resize(4);
+    }else tempcosseno.resize(5);
 
     senoTXT.setString(tempseno);
     cossenoTXT.setString(tempcosseno);
